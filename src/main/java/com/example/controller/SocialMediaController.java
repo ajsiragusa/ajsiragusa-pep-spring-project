@@ -108,10 +108,12 @@ public class SocialMediaController {
     }
 
     @PatchMapping("messages/{messageId}")
-    public ResponseEntity<String> patchMessage(@PathVariable Integer messageId, @RequestBody String messageText){
-        if(messageService.retrieveMessage(messageId) != null && !messageText.isEmpty() && messageText.length() <= 255)
+    public ResponseEntity<String> patchMessage(@PathVariable Integer messageId, @RequestBody Map<String,String> messageText){
+        if(messageService.retrieveMessage(messageId) != null &&
+             !messageText.get("messageText").isEmpty() &&
+              messageText.get("messageText").length() <= 255)
         {
-            messageService.updateMessage(messageId, messageText);
+            messageService.updateMessage(messageId, messageText.get("messageText"));
             return ResponseEntity.status(200).body("1");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

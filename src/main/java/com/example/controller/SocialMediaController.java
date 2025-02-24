@@ -88,6 +88,20 @@ public class SocialMediaController {
 
         return ResponseEntity.status(HttpStatus.OK).body(messageList);
     }
+
+    @GetMapping("messages/{messageId}")
+    public ResponseEntity<Message> retrieveMessage(@PathVariable Integer messageId){
+        Message optionalMessage;
+        optionalMessage = messageService.retrieveMessage(messageId);
+        if(optionalMessage != null)
+        {
+            return ResponseEntity.status(200).body(optionalMessage);
+        }
+        else
+        {
+            return ResponseEntity.status(200).body(null);
+        }
+    }
     
 
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -107,6 +108,16 @@ public class SocialMediaController {
         }
     }
 
+    @DeleteMapping("messages/{messageId}")
+    public ResponseEntity<String> deleteMessage(@PathVariable Integer messageId){
+        if(messageService.retrieveMessage(messageId) != null)
+        {
+            messageService.deleteMessage(messageId);
+            return ResponseEntity.status(200).body("1");
+        }
+        return ResponseEntity.status(200).body(null);
+    }
+
     @PatchMapping("messages/{messageId}")
     public ResponseEntity<String> patchMessage(@PathVariable Integer messageId, @RequestBody Map<String,String> messageText){
         if(messageService.retrieveMessage(messageId) != null &&
@@ -118,6 +129,15 @@ public class SocialMediaController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
+
+    @GetMapping("accounts/{accountId}/messages")
+    public ResponseEntity<List<Message>> retrieveUserMessages(@PathVariable Integer accountId){
+        List<Message> messages;
+        messages = messageService.findByPostedBy(accountId);
+        System.out.println(messages);
+        return ResponseEntity.status(HttpStatus.OK).body(messages);
+    }
+
     
 
 }

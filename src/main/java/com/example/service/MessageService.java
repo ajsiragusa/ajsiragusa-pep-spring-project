@@ -43,6 +43,11 @@ public class MessageService {
         }
     }
 
+    public void deleteMessage(Integer messageId)
+    {
+        messageRepository.deleteById(messageId);
+    }
+
     public void updateMessage(Integer messageId, String messageText)
     {
         Optional<Message> optionalMessage = messageRepository.findById(messageId);
@@ -52,6 +57,12 @@ public class MessageService {
             message.setMessageText(messageText);
             messageRepository.save(message);
         }
+    }
+
+    public List<Message> findByPostedBy(Integer accountID)
+    {
+        List<Message> messages = messageRepository.findByPostedBy(accountID);
+        return messages;
     }
 
 }

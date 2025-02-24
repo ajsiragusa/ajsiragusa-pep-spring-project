@@ -80,6 +80,14 @@ public class SocialMediaController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
+
+    @GetMapping("messages")
+    public ResponseEntity<List<Message>> retrieveMessages(){
+        List<Message> messageList;
+        messageList = messageService.retrieveMessages();
+
+        return ResponseEntity.status(HttpStatus.OK).body(messageList);
+    }
     
 
 }

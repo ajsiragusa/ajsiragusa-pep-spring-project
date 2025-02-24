@@ -43,4 +43,15 @@ public class MessageService {
         }
     }
 
+    public void updateMessage(Integer messageId, String messageText)
+    {
+        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+        if(optionalMessage.isPresent())
+        {
+            Message message = optionalMessage.get();
+            message.setMessageText(messageText);
+            messageRepository.save(message);
+        }
+    }
+
 }
